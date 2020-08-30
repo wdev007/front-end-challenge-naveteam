@@ -24,6 +24,7 @@
   },
   "plugins": ["react", "react-hooks", "@typescript-eslint", "prettier"],
   "rules": {
+    "react/button-has-type": "off",
     "react/jsx-indent": "off",
     "prettier/prettier": "error",
     "react-hooks/rules-of-hooks": "error",

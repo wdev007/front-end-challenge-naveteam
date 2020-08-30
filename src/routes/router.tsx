@@ -1,27 +1,34 @@
 import React, { useState } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
-import AuthLayout from '~/pages/_layouts/app';
-import AppLayout from '~/pages/_layouts/auth';
+import AppLayout from '../pages/_layouts/app';
+import AuthLayout from '../pages/_layouts/auth';
 
 interface IProps {
-  component: React.FunctionComponent | React.ComponentClass;
+  component: any;
   path: string;
   isPrivate?: boolean;
   exact?: boolean;
 }
 
-const RouteWrapper: React.FC<IProps> = ({ component: Component, ...rest }) => {
-  const [authenticated] = useState(true);
+const RouteWrapper: React.FC<IProps> = ({
+  component: Component,
+  isPrivate,
+  ...rest
+}) => {
+  const [authenticated] = useState(false);
+
+  if (!authenticated && isPrivate) {
+    return <Redirect to="/" />;
+  }
 
   const Layout = authenticated ? AppLayout : AuthLayout;
-
   return (
     <Route
       {...rest}
-      render={() => (
+      render={(props: any) => (
         <Layout>
-          <Component />
+          <Component {...props} />
         </Layout>
       )}
     />

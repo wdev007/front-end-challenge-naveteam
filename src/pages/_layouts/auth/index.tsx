@@ -1,7 +1,9 @@
 import React from 'react';
 
+import { LayoutContainer } from './styles';
+
 const AuthLayout: React.FC = ({ children }) => {
-  return <div>{children}</div>;
+  return <LayoutContainer>{children}</LayoutContainer>;
 };
 
 export default AuthLayout;

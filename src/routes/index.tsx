@@ -1,13 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { Switch, BrowserRouter } from 'react-router-dom';
 
 import Router from './router';
 
 // Auth
-import Login from '~/pages/auth/Login';
+import Login from '../pages/auth/Login';
 
 // App
-import Home from '~/pages/app/Home';
+import Home from '../pages/app/Home';
 
 const Routes: React.FC = () => {
   return (
