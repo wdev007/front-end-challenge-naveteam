@@ -8,6 +8,7 @@ import Login from '../pages/auth/Login';
 
 // App
 import Home from '../pages/app/Home';
+import AddNaver from '../pages/app/AddNaver';
 
 const Routes: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const Routes: React.FC = () => {
       <Switch>
         <Router component={Login} path="/" exact />
         <Router component={Home} path="/home" isPrivate />
+        <Router component={AddNaver} path="/add" isPrivate />
       </Switch>
     </BrowserRouter>
   );

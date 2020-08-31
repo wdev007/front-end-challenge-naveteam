@@ -1,9 +1,10 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 
 import Buttom from 'src/components/Button';
 import Card from 'src/components/Card';
 
-import { useNavers } from 'src/hooks/navers';
+import { useNavers, INaver } from 'src/hooks/navers';
 
 import {
   Container,
@@ -14,6 +15,11 @@ import {
 
 const Home: React.FC = () => {
   const { navers } = useNavers();
+  const history = useHistory();
+
+  const handleClick = (naver: INaver): void => {
+    console.log(naver);
+  };
 
   return (
     <Container>
@@ -21,7 +27,7 @@ const Home: React.FC = () => {
         <TitleHeader>Navers</TitleHeader>
         <Buttom
           onClick={() => {
-            console.log('');
+            history.push('/add');
           }}
           type="button"
         >
@@ -30,7 +36,13 @@ const Home: React.FC = () => {
       </ContainerHeader>
       <ContainerList>
         {navers.map(naver => (
-          <Card photoUrl={naver.url} />
+          <Card
+            handleClick={() => handleClick(naver)}
+            url={naver.url}
+            title={naver.name}
+            subtitle={naver.job_role}
+            key={naver.id}
+          />
         ))}
       </ContainerList>
     </Container>

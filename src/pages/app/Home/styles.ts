@@ -9,7 +9,7 @@ export const Container = styled.div`
 
 export const TitleHeader = styled.h2`
   font-style: normal;
-  font-weight: 600;
+  font-weight: 900;
   font-size: 40px;
   line-height: 48px;
   color: #212121;

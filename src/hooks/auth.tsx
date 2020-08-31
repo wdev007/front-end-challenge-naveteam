@@ -59,7 +59,11 @@ const AuthProvider: React.FC = ({ children }) => {
     const userStorage = localStorage.getItem('user');
     const authenticatedStorage = localStorage.getItem('auth');
     if (userStorage) {
-      setUser(JSON.parse(userStorage));
+      const userDecode = JSON.parse(userStorage);
+      setUser(userDecode);
+      api.defaults.headers.common = {
+        authorization: `Bearer ${userDecode?.token}`,
+      };
     }
     if (authenticatedStorage) {
       setAuthenticated(JSON.parse(authenticatedStorage));
@@ -67,11 +71,11 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    api.defaults.headers.common = {
-      authorization: `Bearer ${user?.token}`,
-    };
-    // localStorage.setItem('user', JSON.stringify(user));
-    // localStorage.setItem('auth', JSON.stringify(authenticated));
+    if (user?.token) {
+      api.defaults.headers.common = {
+        authorization: `Bearer ${user?.token}`,
+      };
+    }
   }, [user, authenticated]);
 
   const value = useMemo<IAuthContext>(
