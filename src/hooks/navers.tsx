@@ -10,11 +10,11 @@ import api from '../services/api';
 import { useAuth } from './auth';
 
 export interface INaver {
-  id: string;
+  id?: string;
   name: string;
   admission_date: string;
   job_role: string;
-  user_id: string;
+  user_id?: string;
   project: string;
   birthdate: string;
   url: string;
@@ -23,6 +23,8 @@ export interface INaver {
 interface INaversContext {
   navers: INaver[];
   loading: boolean;
+  handleEdit: (naver: INaver) => Promise<void>;
+  handleCreate: (naver: INaver) => Promise<void>;
 }
 
 const NaversContext = createContext<INaversContext | null>(null);
@@ -32,21 +34,53 @@ const NaversProvider: React.FC = ({ children }) => {
   const [navers, setNavers] = useState<INaver[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    const loadNavers = async (): Promise<void> => {
-      try {
-        setLoading(true);
-        const { data, status } = await api.get('/navers');
+  const loadNavers = async (): Promise<void> => {
+    try {
+      setLoading(true);
+      const { data, status } = await api.get('/navers');
 
-        if (status === 200) {
-          setNavers(data);
-          setLoading(false);
-          console.log(data, 'my navers');
-        }
-      } catch {
+      if (status === 200) {
+        setNavers(data);
         setLoading(false);
       }
-    };
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const handleEdit = async (naver: INaver): Promise<void> => {
+    try {
+      const { status } = await api.put(`/navers/${naver.id}`, {
+        name: naver.name,
+        admission_date: naver.admission_date,
+        job_role: naver.job_role,
+        project: naver.project,
+        birthdate: naver.birthdate,
+        url: naver.url,
+      });
+      if (status === 200) {
+        loadNavers();
+      }
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const handleCreate = async (naver: INaver): Promise<void> => {
+    try {
+      const { status } = await api.post('/navers', {
+        ...naver,
+      });
+
+      if (status === 200) {
+        loadNavers();
+      }
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     if (authenticated) {
       loadNavers();
     }
@@ -56,6 +90,8 @@ const NaversProvider: React.FC = ({ children }) => {
     () => ({
       navers,
       loading,
+      handleEdit,
+      handleCreate,
     }),
     [navers, loading]
   );

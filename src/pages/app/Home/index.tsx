@@ -50,6 +50,7 @@ const Home: React.FC = () => {
 
   const handleEdit = (id: string): void => {
     console.log(id, 'edit');
+    history.push(`/naver/${id}`);
   };
 
   const handleDelete = (id: string): void => {
@@ -62,7 +63,7 @@ const Home: React.FC = () => {
         <TitleHeader>Navers</TitleHeader>
         <Buttom
           onClick={() => {
-            history.push('/add');
+            history.push('/naver');
           }}
           type="button"
         >

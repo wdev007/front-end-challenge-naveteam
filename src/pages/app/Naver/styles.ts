@@ -20,7 +20,13 @@ export const ContainerTitle = styled.div`
   align-items: center;
   margin-bottom: 54px;
 
-  img {
+  button {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  button > img {
     margin-right: 22px;
   }
 `;
@@ -33,7 +39,7 @@ export const Title = styled.h2`
   color: #212121;
 `;
 
-export const Form = styled.div`
+export const Form = styled.form`
   width: 600px;
 
   display: flex;
