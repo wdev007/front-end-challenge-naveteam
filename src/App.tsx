@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { AuthProvider } from './hooks/auth';
+import { NaversProvider } from './hooks/navers';
 
 import GlobalStyles from './styles/global';
 import Routes from './routes';
@@ -8,8 +9,10 @@ import Routes from './routes';
 const App: React.FC = () => (
   <>
     <AuthProvider>
-      <GlobalStyles />
-      <Routes />
+      <NaversProvider>
+        <GlobalStyles />
+        <Routes />
+      </NaversProvider>
     </AuthProvider>
   </>
 );

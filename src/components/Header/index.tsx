@@ -1,14 +1,18 @@
 import React from 'react';
 
-import { Contianer } from './styles';
+import { useAuth } from 'src/hooks/auth';
+
+import { Contianer, ButtonLogout } from './styles';
 
 import logo from '../../assets/logo.svg';
 
 const HeaderComponent: React.FC = () => {
+  const { handleLogout } = useAuth();
+
   return (
     <Contianer>
       <img src={logo} alt="" />
-      <h3>sair</h3>
+      <ButtonLogout onClick={handleLogout}>Sair</ButtonLogout>
     </Contianer>
   );
 };
