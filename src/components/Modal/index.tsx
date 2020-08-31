@@ -1,16 +1,28 @@
 import React from 'react';
 import 'react-responsive-modal/styles.css';
+
 import { Modal } from 'react-responsive-modal';
 
-interface IPros {
+import { ModalBody } from './styles';
+
+export interface IModalBody {
+  isDetail?: boolean;
+}
+
+interface IPros extends IModalBody {
   open: boolean;
   onCloseModal: () => any;
 }
 
-const ModalComponent: React.FC<IPros> = ({ children, open, onCloseModal }) => {
+const ModalComponent: React.FC<IPros> = ({
+  children,
+  open,
+  onCloseModal,
+  isDetail,
+}) => {
   return (
     <Modal open={open} onClose={onCloseModal}>
-      {children}
+      <ModalBody isDetail={isDetail}>{children}</ModalBody>
     </Modal>
   );
 };
