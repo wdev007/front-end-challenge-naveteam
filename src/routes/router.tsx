@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
+
+import { useAuth } from 'src/hooks/auth';
 
 import AppLayout from '../pages/_layouts/app';
 import AuthLayout from '../pages/_layouts/auth';
 
 interface IProps {
-  component: any;
+  component: React.FunctionComponent | React.ClassicComponentClass;
   path: string;
   isPrivate?: boolean;
   exact?: boolean;
@@ -16,19 +18,23 @@ const RouteWrapper: React.FC<IProps> = ({
   isPrivate,
   ...rest
 }) => {
-  const [authenticated] = useState(false);
+  const { authenticated } = useAuth();
 
   if (!authenticated && isPrivate) {
     return <Redirect to="/" />;
   }
+  if (authenticated && !isPrivate) {
+    return <Redirect to="/home" />;
+  }
 
-  const Layout = authenticated ? AppLayout : AuthLayout;
+  const Layout = authenticated && isPrivate ? AppLayout : AuthLayout;
+
   return (
     <Route
       {...rest}
       render={(props: any) => (
         <Layout>
-          <Component {...props} />
+          <Component {...{ ...props, authenticated }} />
         </Layout>
       )}
     />

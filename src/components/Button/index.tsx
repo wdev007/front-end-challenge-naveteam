@@ -4,6 +4,7 @@ import { Button } from './styles';
 
 export interface IButton {
   width?: number;
+  disabled?: boolean;
 }
 
 interface IProps extends IButton {
@@ -15,10 +16,11 @@ const ButtomComponent: React.FC<IProps> = ({
   children,
   type = 'button',
   onClick,
+  disabled = false,
   ...rest
 }) => {
   return (
-    <Button type={type} onClick={onClick} {...rest}>
+    <Button type={type} onClick={onClick} {...rest} disabled={disabled}>
       {children}
     </Button>
   );

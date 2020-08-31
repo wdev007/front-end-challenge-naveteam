@@ -1,7 +1,16 @@
 import React from 'react';
 
+import Header from '../../../components/Header';
+
+import { LayoutContainer } from './styles';
+
 const AppLayout: React.FC = ({ children }) => {
-  return <div id="app-layout">{children}</div>;
+  return (
+    <LayoutContainer>
+      <Header />
+      {children}
+    </LayoutContainer>
+  );
 };
 
 export default AppLayout;
