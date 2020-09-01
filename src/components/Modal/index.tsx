@@ -7,6 +7,7 @@ import { ModalBody } from './styles';
 
 export interface IModalBody {
   isDetail?: boolean;
+  heigth?: number;
 }
 
 interface IPros extends IModalBody {
@@ -19,10 +20,13 @@ const ModalComponent: React.FC<IPros> = ({
   open,
   onCloseModal,
   isDetail,
+  heigth,
 }) => {
   return (
     <Modal open={open} onClose={onCloseModal}>
-      <ModalBody isDetail={isDetail}>{children}</ModalBody>
+      <ModalBody isDetail={isDetail} heigth={heigth}>
+        {children}
+      </ModalBody>
     </Modal>
   );
 };

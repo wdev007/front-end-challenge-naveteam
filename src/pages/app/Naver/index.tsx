@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
+import { feedbacks } from 'src/utils/feedbacks';
 import api from 'src/services/api';
 import Modal from 'src/components/Modal';
 import { useNavers } from '../../../hooks/navers';
@@ -204,7 +205,11 @@ const Naver: React.FC = () => {
           </Button>
         </FormRow>
       </Form>
-      <Modal open={visibleFeedBack.visible} onCloseModal={handleCloseFeedBack}>
+      <Modal
+        open={visibleFeedBack.visible}
+        onCloseModal={handleCloseFeedBack}
+        heigth={feedbacks[visibleFeedBack.feedback || 'created'].heigth}
+      >
         <Feedback feedback={visibleFeedBack.feedback || 'created'} />
       </Modal>
     </Container>

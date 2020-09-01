@@ -6,6 +6,7 @@ import Card from 'src/components/Card';
 import Modal from 'src/components/Modal';
 import Feedback from 'src/components/Feedback';
 
+import { feedbacks } from 'src/utils/feedbacks';
 import { useNavers, INaver } from 'src/hooks/navers';
 
 import trash from '../../../assets/trash.svg';
@@ -137,15 +138,17 @@ const Home: React.FC = () => {
           </DescriptionDetail>
         </>
       </Modal>
-      <Modal open={visibleFeedBack.visible} onCloseModal={handleCloseFeedBack}>
+      <Modal
+        open={visibleFeedBack.visible}
+        onCloseModal={handleCloseFeedBack}
+        heigth={feedbacks[visibleFeedBack.feedback || 'created'].heigth}
+      >
         <Feedback
           feedback={visibleFeedBack.feedback || 'created'}
           handleDelete={() => {
-            console.log('oaoao');
             handleDelete(visibleFeedBack.id || '');
           }}
           handleCancel={() => {
-            console.log('oiii');
             setVisibleFeedBack({
               visible: false,
               feedback: null,

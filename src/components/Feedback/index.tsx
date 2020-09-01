@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { feedbacks } from 'src/utils/feedbacks';
 import Button from '../Button';
 
 import { Container, Message, Title, ContainerActions } from './styles';
@@ -9,29 +10,6 @@ interface IProps {
   handleDelete?: any;
   handleCancel?: any;
 }
-
-const feedbacks = {
-  created: {
-    title: 'Naver criado',
-    message: 'Naver criado com sucesso!',
-    actions: false,
-  },
-  updated: {
-    title: 'Naver atualizado',
-    message: 'Naver atualizado com sucesso!',
-    actions: false,
-  },
-  deleted: {
-    title: 'Naver excluido',
-    message: 'Naver excluido com sucesso!',
-    actions: false,
-  },
-  want_to_delete: {
-    title: 'Excluir Naver',
-    message: 'tem certeza que deseja excluir esse Never?',
-    actions: true,
-  },
-};
 
 const Feedback: React.FC<IProps> = ({
   feedback,
