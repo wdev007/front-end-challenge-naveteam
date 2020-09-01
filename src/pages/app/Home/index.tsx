@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import Buttom from 'src/components/Button';
 import Card from 'src/components/Card';
 import Modal from 'src/components/Modal';
+import Feedback from 'src/components/Feedback';
 
 import { useNavers, INaver } from 'src/hooks/navers';
 
@@ -27,7 +28,7 @@ import {
 } from './styles';
 
 const Home: React.FC = () => {
-  const { navers } = useNavers();
+  const { navers, setVisibleFeedBack, visibleFeedBack } = useNavers();
   const history = useHistory();
   const [visible, setVisible] = useState(false);
   const [currentNaver, setCurrentNaver] = useState<INaver | null>(null);
@@ -54,7 +55,19 @@ const Home: React.FC = () => {
   };
 
   const handleDelete = (id: string): void => {
+    setVisible(false);
+    setVisibleFeedBack({
+      visible: true,
+      feedback: 'want_to_delete',
+    });
     console.log(id, 'delete');
+  };
+
+  const handleCloseFeedBack = (): void => {
+    setVisibleFeedBack({
+      visible: false,
+      feedback: null,
+    });
   };
 
   return (
@@ -119,6 +132,9 @@ const Home: React.FC = () => {
             </ActionsContainerDetail>
           </DescriptionDetail>
         </>
+      </Modal>
+      <Modal open={visibleFeedBack.visible} onCloseModal={handleCloseFeedBack}>
+        <Feedback feedback={visibleFeedBack.feedback || 'created'} />
       </Modal>
     </Container>
   );

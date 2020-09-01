@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import api from 'src/services/api';
+import Modal from 'src/components/Modal';
 import { useNavers } from '../../../hooks/navers';
 
 import arrow from '../../../assets/arrow.svg';
 
 import Input from '../../../components/Input';
 import Button from '../../../components/Button';
+import Feedback from '../../../components/Feedback';
 
 import { formatDate } from '../../../utils/formatDate';
 
@@ -33,7 +35,12 @@ const Naver: React.FC = () => {
     project: '',
     url: '',
   });
-  const { handleEdit, handleCreate } = useNavers();
+  const {
+    handleEdit,
+    handleCreate,
+    visibleFeedBack,
+    setVisibleFeedBack,
+  } = useNavers();
 
   const handleClick = (_: any): void => {
     if (id) {
@@ -108,6 +115,13 @@ const Naver: React.FC = () => {
 
   const handleBack = (): void => {
     history.push('/home');
+  };
+
+  const handleCloseFeedBack = (): void => {
+    setVisibleFeedBack({
+      visible: false,
+      feedback: null,
+    });
   };
 
   useEffect(() => {
@@ -190,6 +204,9 @@ const Naver: React.FC = () => {
           </Button>
         </FormRow>
       </Form>
+      <Modal open={visibleFeedBack.visible} onCloseModal={handleCloseFeedBack}>
+        <Feedback feedback={visibleFeedBack.feedback || 'created'} />
+      </Modal>
     </Container>
   );
 };

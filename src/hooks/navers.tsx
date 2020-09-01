@@ -25,6 +25,13 @@ interface INaversContext {
   loading: boolean;
   handleEdit: (naver: INaver) => Promise<void>;
   handleCreate: (naver: INaver) => Promise<void>;
+  visibleFeedBack: IFeedbacks;
+  setVisibleFeedBack: React.Dispatch<React.SetStateAction<IFeedbacks>>;
+}
+
+interface IFeedbacks {
+  visible: boolean;
+  feedback: 'updated' | 'deleted' | 'want_to_delete' | 'created' | null;
 }
 
 const NaversContext = createContext<INaversContext | null>(null);
@@ -33,6 +40,10 @@ const NaversProvider: React.FC = ({ children }) => {
   const { authenticated } = useAuth();
   const [navers, setNavers] = useState<INaver[]>([]);
   const [loading, setLoading] = useState(false);
+  const [visibleFeedBack, setVisibleFeedBack] = useState<IFeedbacks>({
+    visible: false,
+    feedback: null,
+  });
 
   const loadNavers = async (): Promise<void> => {
     try {
@@ -59,6 +70,10 @@ const NaversProvider: React.FC = ({ children }) => {
         url: naver.url,
       });
       if (status === 200) {
+        setVisibleFeedBack({
+          visible: true,
+          feedback: 'updated',
+        });
         loadNavers();
       }
     } catch {
@@ -73,6 +88,10 @@ const NaversProvider: React.FC = ({ children }) => {
       });
 
       if (status === 200) {
+        setVisibleFeedBack({
+          visible: true,
+          feedback: 'created',
+        });
         loadNavers();
       }
     } catch {
@@ -92,8 +111,10 @@ const NaversProvider: React.FC = ({ children }) => {
       loading,
       handleEdit,
       handleCreate,
+      visibleFeedBack,
+      setVisibleFeedBack,
     }),
-    [navers, loading]
+    [navers, loading, visibleFeedBack]
   );
 
   return (

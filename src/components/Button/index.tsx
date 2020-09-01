@@ -5,6 +5,7 @@ import { Button } from './styles';
 export interface IButton {
   width?: number;
   disabled?: boolean;
+  invertedColor?: boolean;
 }
 
 interface IProps extends IButton {
@@ -12,7 +13,7 @@ interface IProps extends IButton {
   onClick: (event: any) => void;
 }
 
-const ButtomComponent: React.FC<IProps> = ({
+const ButtonComponent: React.FC<IProps> = ({
   children,
   type = 'button',
   onClick,
@@ -26,4 +27,4 @@ const ButtomComponent: React.FC<IProps> = ({
   );
 };
 
-export default ButtomComponent;
+export default ButtonComponent;

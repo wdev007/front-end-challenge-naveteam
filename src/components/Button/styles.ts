@@ -1,10 +1,11 @@
 import styled from 'styled-components';
-import { darken, opacify } from 'polished';
+import { darken } from 'polished';
 
 import { IButton } from './index';
 
 export const Button = styled.button<IButton>`
-  background: ${props => (props.disabled ? opacify(1, '#212121') : '#212121')};
+  background: ${props => (props.invertedColor ? '#fff' : '#212121')};
+  border: 1px solid #212121;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
@@ -12,10 +13,11 @@ export const Button = styled.button<IButton>`
 
   width: ${props => `${props.width ? `${props.width}%` : `${176}px`}`};
   height: 40px;
-  color: #fff;
+  color: ${props => (props.invertedColor ? '#212121' : '#fff')};
   border: none;
 
   &:hover {
-    background: ${darken(0.2, '#212121')};
+    background: ${props =>
+      props.invertedColor ? darken(0.1, '#fff') : darken(0.2, '#212121')};
   }
 `;
