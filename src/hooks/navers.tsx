@@ -25,6 +25,7 @@ interface INaversContext {
   loading: boolean;
   handleEdit: (naver: INaver) => Promise<void>;
   handleCreate: (naver: INaver) => Promise<void>;
+  handleDelete: (id: string) => Promise<void>;
   visibleFeedBack: IFeedbacks;
   setVisibleFeedBack: React.Dispatch<React.SetStateAction<IFeedbacks>>;
 }
@@ -32,6 +33,7 @@ interface INaversContext {
 interface IFeedbacks {
   visible: boolean;
   feedback: 'updated' | 'deleted' | 'want_to_delete' | 'created' | null;
+  id?: string;
 }
 
 const NaversContext = createContext<INaversContext | null>(null);
@@ -43,6 +45,7 @@ const NaversProvider: React.FC = ({ children }) => {
   const [visibleFeedBack, setVisibleFeedBack] = useState<IFeedbacks>({
     visible: false,
     feedback: null,
+    id: '',
   });
 
   const loadNavers = async (): Promise<void> => {
@@ -74,6 +77,7 @@ const NaversProvider: React.FC = ({ children }) => {
           visible: true,
           feedback: 'updated',
         });
+        setLoading(false);
         loadNavers();
       }
     } catch {
@@ -92,6 +96,24 @@ const NaversProvider: React.FC = ({ children }) => {
           visible: true,
           feedback: 'created',
         });
+        setLoading(false);
+        loadNavers();
+      }
+    } catch {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string): Promise<void> => {
+    try {
+      const { status } = await api.delete(`/navers/${id}`);
+
+      if (status === 200) {
+        setVisibleFeedBack({
+          visible: true,
+          feedback: 'deleted',
+        });
+        setLoading(false);
         loadNavers();
       }
     } catch {
@@ -113,6 +135,7 @@ const NaversProvider: React.FC = ({ children }) => {
       handleCreate,
       visibleFeedBack,
       setVisibleFeedBack,
+      handleDelete,
     }),
     [navers, loading, visibleFeedBack]
   );

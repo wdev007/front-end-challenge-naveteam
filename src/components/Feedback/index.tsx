@@ -6,6 +6,8 @@ import { Container, Message, Title, ContainerActions } from './styles';
 
 interface IProps {
   feedback: 'updated' | 'deleted' | 'want_to_delete' | 'created';
+  handleDelete?: any;
+  handleCancel?: any;
 }
 
 const feedbacks = {
@@ -31,7 +33,11 @@ const feedbacks = {
   },
 };
 
-const Feedback: React.FC<IProps> = ({ feedback }) => {
+const Feedback: React.FC<IProps> = ({
+  feedback,
+  handleCancel,
+  handleDelete,
+}) => {
   return (
     <Container>
       <div>
@@ -40,21 +46,10 @@ const Feedback: React.FC<IProps> = ({ feedback }) => {
       </div>
       {feedbacks[feedback].actions && (
         <ContainerActions>
-          <Button
-            type="button"
-            invertedColor
-            onClick={() => {
-              console.log('');
-            }}
-          >
+          <Button type="button" invertedColor onClick={handleCancel}>
             Cancelar
           </Button>
-          <Button
-            type="button"
-            onClick={() => {
-              console.log('');
-            }}
-          >
+          <Button type="button" onClick={handleDelete}>
             Excluir
           </Button>
         </ContainerActions>

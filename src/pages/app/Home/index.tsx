@@ -28,7 +28,12 @@ import {
 } from './styles';
 
 const Home: React.FC = () => {
-  const { navers, setVisibleFeedBack, visibleFeedBack } = useNavers();
+  const {
+    navers,
+    setVisibleFeedBack,
+    visibleFeedBack,
+    handleDelete,
+  } = useNavers();
   const history = useHistory();
   const [visible, setVisible] = useState(false);
   const [currentNaver, setCurrentNaver] = useState<INaver | null>(null);
@@ -50,17 +55,16 @@ const Home: React.FC = () => {
   };
 
   const handleEdit = (id: string): void => {
-    console.log(id, 'edit');
     history.push(`/naver/${id}`);
   };
 
-  const handleDelete = (id: string): void => {
+  const onDelete = (id: string): void => {
     setVisible(false);
     setVisibleFeedBack({
       visible: true,
       feedback: 'want_to_delete',
+      id,
     });
-    console.log(id, 'delete');
   };
 
   const handleCloseFeedBack = (): void => {
@@ -119,7 +123,7 @@ const Home: React.FC = () => {
             <ActionsContainerDetail>
               <button
                 type="button"
-                onClick={() => handleDelete(currentNaver?.id || '')}
+                onClick={() => onDelete(currentNaver?.id || '')}
               >
                 <img src={trash} alt="trash" />
               </button>
@@ -134,7 +138,20 @@ const Home: React.FC = () => {
         </>
       </Modal>
       <Modal open={visibleFeedBack.visible} onCloseModal={handleCloseFeedBack}>
-        <Feedback feedback={visibleFeedBack.feedback || 'created'} />
+        <Feedback
+          feedback={visibleFeedBack.feedback || 'created'}
+          handleDelete={() => {
+            console.log('oaoao');
+            handleDelete(visibleFeedBack.id || '');
+          }}
+          handleCancel={() => {
+            console.log('oiii');
+            setVisibleFeedBack({
+              visible: false,
+              feedback: null,
+            });
+          }}
+        />
       </Modal>
     </Container>
   );

@@ -11,6 +11,7 @@ export interface IButton {
 interface IProps extends IButton {
   type: 'button' | 'reset' | 'submit';
   onClick: (event: any) => void;
+  className?: string;
 }
 
 const ButtonComponent: React.FC<IProps> = ({

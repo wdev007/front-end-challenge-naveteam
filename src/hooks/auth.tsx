@@ -23,6 +23,7 @@ interface IAuthContext {
   authenticated: boolean;
   handleLogin: (data: ILogin) => Promise<void>;
   handleLogout: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<IAuthContext | null>(null);
@@ -30,9 +31,11 @@ const AuthContext = createContext<IAuthContext | null>(null);
 const AuthProvider: React.FC = ({ children }) => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<IUser | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async ({ email, password }: ILogin): Promise<void> => {
     try {
+      setLoading(true);
       const { status, data } = await api.post<IUser>('/users/login', {
         email,
         password,
@@ -44,8 +47,10 @@ const AuthProvider: React.FC = ({ children }) => {
         localStorage.setItem('user', JSON.stringify(data));
         localStorage.setItem('auth', JSON.stringify(true));
       }
+      setLoading(false);
     } catch (error) {
       setAuthenticated(false);
+      setLoading(false);
     }
   };
 
@@ -83,8 +88,9 @@ const AuthProvider: React.FC = ({ children }) => {
       authenticated,
       handleLogin,
       handleLogout,
+      loading,
     }),
-    [authenticated]
+    [authenticated, loading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
